@@ -4,6 +4,19 @@ __doc__="""
 Creates a GUI where you can "twist" Smart Component Axis in selected layers. Choose Random (each axis gets a random value in the given ranges) or Fixed (all axes get the same deltas). Optional: duplicate to a new layer or glyph first, with a custom name.
 """
 
+# --------------------------------------------------------------------
+# Addition Projects - Last Update, Oct 31 2025
+# --------------------------------------------------------------------
+# Axis Twister
+# --------------------------------------------------------------------
+# This script uses Vanilla to create a small window where you can:
+# → Alter smart component axes values
+# → Choose whether to change all axes or only one
+# → Option to change randomly or fixed
+# → Option to make the new Glyph on a new layer or in a new glyph
+# --------------------------------------------------------------------
+
+
 import GlyphsApp, random
 from datetime import datetime
 from vanilla import Window, TextBox, EditText, Button, PopUpButton, CheckBox

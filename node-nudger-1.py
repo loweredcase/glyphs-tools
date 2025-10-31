@@ -4,17 +4,19 @@ __doc__="""
 Creates a GUI where you can "nudge nodes" in selected layers. Choose Random (each node gets a random value in the given ranges) or Fixed (all nodes get the same deltas). Optional: duplicate to a new layer or glyph first, with a custom name.
 """
 
+
+
 # --------------------------------------------------------------------
-# Graduate Elective 1: Scripting Demo
-# Kelsey Elder - Last Update, Oct 27 2025
+# Addition Projects - Last Update, Oct 31 2025
 # --------------------------------------------------------------------
-# Sample Script + GUI: Node Nudger
+# Axis Twister
 # --------------------------------------------------------------------
 # This script uses Vanilla to create a small window where you can:
 # → Nudge Nodes by x and y values with random and fixed options
 # → Duplicate the layer so you can work non-destructively
 # → Timestamp the new layer name automatically or give custom name
 # --------------------------------------------------------------------
+
 
 
 import GlyphsApp, random

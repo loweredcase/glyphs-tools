@@ -5,10 +5,9 @@ Creates a GUI where you can control swapping components in a selected glyph from
 """
 
 # --------------------------------------------------------------------
-# Graduate Elective 1: Scripting Demo
-# Kelsey Elder - Last Update, Oct 27 2025
+# Addition Projects - Last Update, Oct 31 2025
 # --------------------------------------------------------------------
-# Sample Script + GUI: Component Swapper
+# Component Swapper
 # --------------------------------------------------------------------
 # This script uses Vanilla to create a small window where you can:
 # → Make a pool of possible components (comma-separated)
