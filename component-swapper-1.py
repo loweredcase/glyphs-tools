@@ -382,7 +382,11 @@ class SwapComponentsGUI(object):
 							lastLayerToFocus = workingLayer
 						else:
 							if makeNewLayer:
-								workingLayer = duplicateLayer_withName(srcLayer, name_if_any=newLayerName, tag="SwapComponents")
+								workingLayer = duplicateLayer_withName(
+									srcLayer,
+									name_if_any=newLayerName,
+									tag="SwapComponents"
+								)
 								layersToFocus.append(workingLayer)
 							else:
 								workingLayer = srcLayer
@@ -390,7 +394,7 @@ class SwapComponentsGUI(object):
 						layersToProcess.append(workingLayer)
 
 				# apply swaps
-				specIndex = 0  # for cycling through specific replacement list
+				specIndex = 0  # counts how many specific replacements we've done
 				for layer in layersToProcess:
 					processedLayers += 1
 					for idx, comp in enumerate(layer.components):
@@ -406,8 +410,12 @@ class SwapComponentsGUI(object):
 							if not scopeName or compName != scopeName:
 								continue
 
-						# Modulo
-						if useModulo:
+						# Modulo behavior:
+						# - Random mode: modulo decides WHETHER we swap (skip some)
+						# - Specific list mode: modulo decides WHICH item in the list we use (pattern),
+						#   but we still swap every targeted component.
+						if replModeIdx == 0 and useModulo:
+							# RANDOM MODE: only swap every other targeted component
 							if startOdd and (idx % 2 == 0):
 								continue
 							if (not startOdd) and (idx % 2 == 1):
@@ -425,7 +433,13 @@ class SwapComponentsGUI(object):
 							# Specific list: cycle through replacementList
 							if not replacementList:
 								continue
-							newName = replacementList[specIndex % len(replacementList)]
+							if useModulo:
+								# Use specIndex as sequence counter with offset for even/odd start
+								offset = 1 if startOdd else 0
+								repIndex = (specIndex + offset) % len(replacementList)
+							else:
+								repIndex = specIndex % len(replacementList)
+							newName = replacementList[repIndex]
 							specIndex += 1
 
 						try:
@@ -516,6 +530,7 @@ class SwapComponentsGUI(object):
 			f"✔ Swapped {swappedCount} component(s) across {processedLayers} layer(s). "
 			f"Scope={scopeMsg}, Replacement={replMsg}, Chance={swapPct}%, {modMsg}, {layerMsg}, {glyphMsg}."
 		)
+
 
 	def close(self, sender):
 		self.w.close()
