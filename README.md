@@ -1,8 +1,8 @@
-## ------------
+------------
 
-## Glyphs Tools
+Glyphs Tools
 
-## ------------
+------------
 
 A compact toolkit for modular and component-driven workflows in Glyphs 3:
 → **Axis Twister**: adjust Smart Component axes (random or targeted); non-destructive options
@@ -26,9 +26,9 @@ A compact toolkit for modular and component-driven workflows in Glyphs 3:
 
 ---
 
-## Tools
+ Tools
 
-### **Axis Twister**
+**Axis Twister**
 
 Affect Smart Component Axes in selected layers or across a set
 → Random ranges (min/max per axis, clamped to axis limits)
@@ -43,7 +43,7 @@ Affect Smart Component Axes in selected layers or across a set
 
 ---
 
-### **Component Swapper**
+**Component Swapper**
 
 Swap components within a single glyph or across a set
 → Define a pool of possible replacement components
