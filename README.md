@@ -1,76 +1,79 @@
-------------
-
-Glyphs Tools
-
-------------
+## ------------
+## Glyphs Tools
+## ------------
 
 A compact toolkit for modular and component-driven workflows in Glyphs 3:
-→ **Axis Twister**: adjust Smart Component axes (random or targeted); non-destructive options
-→ **Component Swapper**: swap components by pool, target scope, modulo; non-destructive options
-→ **Node Nudger**: nudge on-curve nodes by random or fixed x/y values; non-destructive options
 
-*Requirements*
-→ Glyphs 3 (3.4.x–3.5.x)
-→ Python + Vanilla enabled
+- → **Axis Twister**: adjust Smart Component axes (random or targeted); non-destructive options  
+- → **Component Swapper**: swap components by pool, target scope, modulo; non-destructive options  
+- → **Node Nudger**: nudge on-curve nodes by random or fixed x/y values; non-destructive options  
 
-*Installation*
-→ Clone or download this repo
-→ Place scripts in your Glyphs Scripts folder:
-`Glyphs → Preferences → Addons → Scripts → Open Scripts Folder`
-→ Refresh scripts:
-`Scripts → Reload Scripts`
+### Requirements
 
-*Usage*
-→ Scripts appear under the **Scripts** menu after reloading
-→ Open **Window → Macro Panel** to inspect output
+- → Glyphs 3 (3.4.x–3.5.x)  
+- → Python + Vanilla enabled  
 
----
+### Installation
 
- Tools
+- → Clone or download this repo  
+- → Place scripts in your Glyphs Scripts folder:  
+  `Glyphs → Preferences → Addons → Scripts → Open Scripts Folder`  
+- → Refresh scripts:  
+  `Scripts → Reload Scripts`  
 
-**Axis Twister**
+### Usage
 
-Affect Smart Component Axes in selected layers or across a set
-→ Random ranges (min/max per axis, clamped to axis limits)
-→ Fixed lists (e.g. “100, 50, 25”) randomly applied per component
-→ Axis scoping: all axes or a specific named axis
-→ Component scoping: all smart components or only names in a pool
-→ Chance (%) + affect every Nth component (1 = all, 2 = every other, 3 = every third…)
-→ Optional **random counter generation** (decompose + reverse shapes to create cutouts)
-→ Duplicate to new layer or new glyph with custom naming
-→ New glyphs appear immediately after the original in the Edit tab
-→ Reset button (one undo step / ⌘Z)
+- → Scripts appear under the **Scripts** menu after reloading  
+- → Open **Window → Macro Panel** to inspect output  
 
 ---
 
-**Component Swapper**
+## Tools
 
-Swap components within a single glyph or across a set
-→ Define a pool of possible replacement components
-→ Swap randomly from the pool
-→ Or swap using a specific list (A → B → C → … cycling)
-→ Target scope: all components in the pool or a single component name
-→ Modulo alternation: even/odd or every Nth component
-→ Chance (%) controls how often replacements occur
-→ Duplicate to new layer or new glyph with suffix or versioning
-→ Edit-tab updates insert new glyphs directly after the original
-→ Reset button (undo)
+### Axis Twister
+
+Affect Smart Component Axes in selected layers or across a set:
+
+- → Random ranges (min/max per axis, clamped to axis limits)  
+- → Fixed lists (e.g. “100, 50, 25”) randomly applied per component  
+- → Axis scoping: all axes or a specific named axis  
+- → Component scoping: all smart components or only names in a pool  
+- → Chance (%) + affect every Nth component (1 = all, 2 = every other, 3 = every third…)  
+- → Optional **random counter generation** (decompose + reverse shapes to create cutouts)  
+- → Duplicate to new layer or new glyph with custom naming  
+- → New glyphs appear immediately after the original in the Edit tab  
+- → Reset button (one undo step / ⌘Z)  
 
 ---
 
-### **Node Nudger**
+### Component Swapper
 
-Alter point and handle position in a layer or across a set
-→ Random or fixed X/Y nudging
-→ Independent toggles for “Nudge X” and “Nudge Y”
-→ Preserve-curve mode (move handles with on-curve points)
-→ Or nudge handles independently (more glitch-driven outcomes)
-→ Duplicate to new layer or new glyph (timestamped naming options)
-→ New glyphs appear directly after the source in the Edit tab
-→ Reset button (undo)
+Swap components within a single glyph or across a set:
+
+- → Define a pool of possible replacement components  
+- → Swap randomly from the pool  
+- → Or swap using a specific list (A → B → C → … cycling)  
+- → Target scope: all components in the pool or a single component name  
+- → Modulo alternation: even/odd or every Nth component  
+- → Chance (%) controls how often replacements occur  
+- → Duplicate to new layer or new glyph with suffix or versioning  
+- → Edit-tab updates insert new glyphs directly after the original  
+- → Reset button (undo)  
+
+---
+
+### Node Nudger
+
+Alter point and handle position in a layer or across a set:
+
+- → Random or fixed X/Y nudging  
+- → Independent toggles for “Nudge X” and “Nudge Y”  
+- → Preserve-curve mode (move handles with on-curve points)  
+- → Or nudge handles independently (more glitch-driven outcomes)  
+- → Duplicate to new layer or new glyph (timestamped naming options)  
+- → New glyphs appear directly after the source in the Edit tab  
+- → Reset button (undo)  
 
 ---
 
 © Addition Projects 2025
-
----
