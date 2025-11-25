@@ -1,20 +1,25 @@
 **------------**
+
 **Glyphs Tools**
+
 **------------**
 
 
 A compact toolkit for modular and component-driven workflows in Glyphs 3:
+
   → **Axis Twister**: adjust Smart Component axes (random or targeted); non-destructive options  
   → **Component Swapper**: swap components by pool, target scope, modulo; non-destructive options  
   → **Node Nudger**: nudge on-curve nodes by random or fixed x/y values; non-destructive options  
 
 
 **Requirements**
+
   → Glyphs 3 (3.4.x–3.5.x)  
   → Python + Vanilla enabled  
 
 
 **Installation**
+
   → Clone or download this repo  
   → Place scripts in your Glyphs Scripts folder:  
       `Glyphs → Preferences → Addons → Scripts → Open Scripts Folder`  
@@ -23,13 +28,16 @@ A compact toolkit for modular and component-driven workflows in Glyphs 3:
 
 
 **Usage**
+
   → Scripts appear under the *Scripts* menu after reloading  
   → Open *Window → Macro Panel* to inspect output  
 
 
 
 **Tools**
+
 *Axis Twister*
+
   → Random ranges (min/max per axis, clamped to axis limits)  
   → Fixed lists (e.g. `100, 50, 25`) randomly applied per component  
   → Axis scoping: all axes or a specific named axis  
@@ -41,6 +49,7 @@ A compact toolkit for modular and component-driven workflows in Glyphs 3:
   → Reset button (`undo / ⌘Z`)  
 
 *Component Swapper*
+
   → Define a pool of replacement components  
   → Swap randomly from the pool  
   → Or swap using a specific list (`A → B → C → …`)  
@@ -52,6 +61,7 @@ A compact toolkit for modular and component-driven workflows in Glyphs 3:
   → Reset button (`undo`)  
 
 *Node Nudger*
+
   → Random or fixed X/Y nudging  
   → Independent toggles for “Nudge X” and “Nudge Y”  
   → Preserve-curve mode (move handles with on-curve points)  
