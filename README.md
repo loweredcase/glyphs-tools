@@ -2,7 +2,8 @@
 **Glyphs Tools**  
 **------------**  
   
-  
+
+
 A compact toolkit for modular and component-driven workflows in Glyphs 3:  
   → **Axis Twister**: adjust Smart Component axes (random or targeted); non-destructive options  
   → **Component Swapper**: swap components by pool, target scope, modulo; non-destructive options  
@@ -14,6 +15,7 @@ A compact toolkit for modular and component-driven workflows in Glyphs 3:
   → Python + Vanilla enabled  
   
   
+
 **Installation**  
   → Clone or download this repo  
   → Place scripts in your Glyphs Scripts folder:  
@@ -22,11 +24,13 @@ A compact toolkit for modular and component-driven workflows in Glyphs 3:
       `Scripts → Reload Scripts`  
   
   
+
 **Usage**  
   → Scripts appear under the *Scripts* menu after reloading  
   → Open *Window → Macro Panel* to inspect output  
   
   
+
 **Tools**  
   *Axis Twister*  
   → Random ranges (min/max per axis, clamped to axis limits)  
@@ -61,6 +65,6 @@ A compact toolkit for modular and component-driven workflows in Glyphs 3:
   
   
   
-  
+
 
 © Addition Projects 2025
