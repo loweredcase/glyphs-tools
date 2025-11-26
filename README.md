@@ -30,6 +30,7 @@ A compact toolkit for modular and component-driven workflows in Glyphs 3:
   → Open *Window → Macro Panel* to inspect output  
   
   
+---  
 
 **Tools**  
   *Axis Twister*  
