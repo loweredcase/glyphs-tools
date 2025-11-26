@@ -7,7 +7,7 @@ A compact toolkit for modular and component-driven workflows in Glyphs 3:
   → **Component Swapper**: swap components by pool, target scope, modulo; non-destructive options  
   → **Node Nudger**: nudge on-curve nodes by random or fixed x/y values; non-destructive options  
 
----  
+
 
 **Requirements**  
   → Glyphs 3 (3.4.x–3.5.x)  
@@ -24,7 +24,7 @@ A compact toolkit for modular and component-driven workflows in Glyphs 3:
   → Scripts appear under the *Scripts* menu after reloading  
   → Open *Window → Macro Panel* to inspect output  
 
----  
+
 
 **Tools**  
   *Axis Twister*  
@@ -58,6 +58,6 @@ A compact toolkit for modular and component-driven workflows in Glyphs 3:
   → New glyphs appear directly after the source in the Edit tab  
   → Reset button (`undo`)  
 
----  
+
 
 © Addition Projects 2025
