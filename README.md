@@ -1,37 +1,29 @@
 **------------**  
 **Glyphs Tools**  
 **------------**  
-  
-
 
 A compact toolkit for modular and component-driven workflows in Glyphs 3:  
   → **Axis Twister**: adjust Smart Component axes (random or targeted); non-destructive options  
   → **Component Swapper**: swap components by pool, target scope, modulo; non-destructive options  
   → **Node Nudger**: nudge on-curve nodes by random or fixed x/y values; non-destructive options  
-  
-  
+
 ---  
 
-  **Requirements**  
+**Requirements**  
   → Glyphs 3 (3.4.x–3.5.x)  
   → Python + Vanilla enabled  
-  
-  
 
-  **Installation**  
+**Installation**  
   → Clone or download this repo  
   → Place scripts in your Glyphs Scripts folder:  
       `Glyphs → Preferences → Addons → Scripts → Open Scripts Folder`  
   → Refresh scripts:  
       `Scripts → Reload Scripts`  
-  
-  
 
-  **Usage**  
+**Usage**  
   → Scripts appear under the *Scripts* menu after reloading  
   → Open *Window → Macro Panel* to inspect output  
-  
-  
+
 ---  
 
 **Tools**  
@@ -65,11 +57,7 @@ A compact toolkit for modular and component-driven workflows in Glyphs 3:
   → Duplicate to new layer or new glyph (timestamped naming options)  
   → New glyphs appear directly after the source in the Edit tab  
   → Reset button (`undo`)  
-  
-  
-  
-  
-  
+
 ---  
 
 © Addition Projects 2025
