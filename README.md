@@ -10,13 +10,13 @@ A compact toolkit for modular and component-driven workflows in Glyphs 3:
   → **Node Nudger**: nudge on-curve nodes by random or fixed x/y values; non-destructive options  
   
   
-**Requirements**  
+  **Requirements**  
   → Glyphs 3 (3.4.x–3.5.x)  
   → Python + Vanilla enabled  
   
   
 
-**Installation**  
+  **Installation**  
   → Clone or download this repo  
   → Place scripts in your Glyphs Scripts folder:  
       `Glyphs → Preferences → Addons → Scripts → Open Scripts Folder`  
@@ -25,7 +25,7 @@ A compact toolkit for modular and component-driven workflows in Glyphs 3:
   
   
 
-**Usage**  
+  **Usage**  
   → Scripts appear under the *Scripts* menu after reloading  
   → Open *Window → Macro Panel* to inspect output  
   
