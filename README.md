@@ -2,9 +2,9 @@
 
 
 A compact toolkit for modular and component-driven workflows in Glyphs 3:  
-  → *Axis Twister* : adjusts Smart Component axes (random or targeted); non-destructive options  
-  → *Component Swapper* : swaps components by pool, target scope, modulo; non-destructive options  
-  → *Node Nudger* : moves on-curve nodes by random or fixed x/y values; non-destructive options    
+  → **Axis Twister** adjusts Smart Component axes (random or targeted); non-destructive options  
+  → **Component Swapper** swaps components by pool, target scope, modulo; non-destructive options  
+  → **Node Nudger** moves on-curve nodes by random or fixed x/y values; non-destructive options    
    
 
 **Requirements**  
