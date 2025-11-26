@@ -28,7 +28,6 @@ A compact toolkit for modular and component-driven workflows in Glyphs 3:
    
 
 **Tools**  
-   
   *Axis Twister*  
   → Random ranges (min/max per axis, clamped to axis limits)  
   → Fixed lists (e.g. `100, 50, 25`) randomly applied per component  
