@@ -10,6 +10,8 @@ A compact toolkit for modular and component-driven workflows in Glyphs 3:
   → **Node Nudger**: nudge on-curve nodes by random or fixed x/y values; non-destructive options  
   
   
+---  
+
   **Requirements**  
   → Glyphs 3 (3.4.x–3.5.x)  
   → Python + Vanilla enabled  
@@ -66,6 +68,8 @@ A compact toolkit for modular and component-driven workflows in Glyphs 3:
   
   
   
-
+  
+  
+---  
 
 © Addition Projects 2025
