@@ -61,7 +61,7 @@ A compact toolkit for modular and component-driven workflows in Glyphs 3:
   → Reset button (`undo`)  
 
 
-*Rotation Jig*  
+*Rotator Jig*  
   → Builds real Intermediate (brace) layers along a chosen axis (current master only)  
   → Copies current-master outlines into each brace layer and rotates geometry around a fixed center  
   → Generates frames by degree step (endpoints excluded)  
@@ -70,9 +70,14 @@ A compact toolkit for modular and component-driven workflows in Glyphs 3:
   → Safe to rerun (rebuilds only the generated brace layers)  
   → Reset button (`undo / ⌘Z`)  
 
-  *Note on axis limits*  
-  → Rotation Jig intentionally caps its final intermediate brace at **max-1** (e.g. **999** when max is 1000)  
+  *Note on rotation*  
+  → Rotator Jig intentionally caps its final intermediate brace at **max-1** (e.g. **999** when max is 1000)  
   → This avoids interpolation artifacts at endpoints, due to for example a start node changing positions through rotation, and supports clean looping for animation (1 → 999 → 1)  
 
+
+*Seed Spreader*
+  → Seed Spreader propagates a parent drawing across all child layers of a glyph, enabling fast expansion of component-based character sets across multiple axes and styles.
+
+  
 
 © Addition Projects 2026

@@ -1,4 +1,4 @@
-#MenuTitle: Rotation Jig
+#MenuTitle: Rotator Jig
 # -*- coding: utf-8 -*-
 __doc__="""
 Creates a GUI to automate "rotational" intermediate layers.
@@ -7,7 +7,7 @@ Creates a GUI to automate "rotational" intermediate layers.
 # --------------------------------------------------------------------
 # Addition Projects - Last Update, Jan 29 2026
 # --------------------------------------------------------------------
-# Glyph Tools: Rotation Jig
+# Glyph Tools: Rotator Jig
 # --------------------------------------------------------------------
 # This script uses Vanilla to create a small window where you can:
 # → Build Intermediate (brace) layers along an axis for rotation-like interpolation
