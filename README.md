@@ -1,6 +1,6 @@
 ## Overview  
 
-A compact toolkit for modular and component-driven workflows in Glyphs 3:  
+*A compact toolkit for modular and component-driven workflows in Glyphs 3:*  
   → **Axis Twister** adjusts Smart Component axes (random or targeted); non-destructive options  
   → **Component Swapper** swaps components by pool, target scope, modulo; non-destructive options  
   → **Node Nudger** moves on-curve nodes by random or fixed x/y values; non-destructive options  
@@ -29,8 +29,8 @@ A compact toolkit for modular and component-driven workflows in Glyphs 3:
 
 ## Tools  
 
-*Axis Twister*  
-Creates a GUI where you can “twist” Smart Component Axes in a specific glyph or selection of glyphs.  
+**Axis Twister**  
+*Creates a GUI where you can “twist” Smart Component Axes in a specific glyph or selection of glyphs.*  
   → Random ranges (min/max per axis, clamped to axis limits)  
   → Fixed lists (e.g. `100, 50, 25`) randomly applied per component  
   → Axis scoping: all axes or a specific named axis  
@@ -42,8 +42,8 @@ Creates a GUI where you can “twist” Smart Component Axes in a specific glyph
   → Reset button (`undo / ⌘Z`)  
 
 
-*Component Swapper*  
-Creates a GUI where you can control swapping components in a specific glyph or selection of glyphs.  
+**Component Swapper**  
+*Creates a GUI where you can control swapping components in a specific glyph or selection of glyphs.*  
   → Define a pool of replacement components  
   → Swap randomly from the pool  
   → Or swap using a specific list (`A → B → C → …`)  
@@ -55,8 +55,8 @@ Creates a GUI where you can control swapping components in a specific glyph or s
   → Reset button (`undo`)  
 
 
-*Node Nudger*  
-Creates a GUI where you can "nudge nodes" in a specific glyph or selection of glyphs.  
+**Node Nudger**  
+*Creates a GUI where you can "nudge nodes" in a specific glyph or selection of glyphs.*  
   → Random or fixed X/Y nudging  
   → Independent toggles for “Nudge X” and “Nudge Y”  
   → Preserve-curve mode (move handles with on-curve points)  
@@ -66,8 +66,8 @@ Creates a GUI where you can "nudge nodes" in a specific glyph or selection of gl
   → Reset button (`undo`)  
 
 
-*Rotator Jig*  
-Creates a GUI to automate "rotational" intermediate layers.  
+**Rotator Jig**  
+*Creates a GUI to automate "rotational" intermediate layers.*  
   → Builds real Intermediate (brace) layers along a chosen axis (current master only)  
   → Copies current-master outlines into each brace layer and rotates geometry around a fixed center  
   → Generates frames by degree step (endpoints excluded)  
@@ -76,21 +76,21 @@ Creates a GUI to automate "rotational" intermediate layers.
   → Safe to rerun (rebuilds only the generated brace layers)  
   → Reset button (`undo / ⌘Z`)  
 
-  *Note on rotation*  
+  Note on rotation:  
   → Rotator Jig intentionally caps its final intermediate brace at **max-1** (e.g. **999** when max is 1000)  
   → This avoids interpolation artifacts at endpoints, due to for example a start node changing positions through rotation, and supports clean looping for animation (1 → 999 → 1)  
 
 
-*Seed Spreader*  
-Create a GUI that helps propagates a parent drawing across all child layers of a glyph, enabling fast expansion of component-based character sets across multiple axes and styles  
+**Seed Spreader**  
+*Create a GUI that helps propagates a parent drawing across all child layers of a glyph, enabling fast expansion of component-based character sets across multiple axes and styles.*  
   → Propagate parent drawing to all child layers for selected glyph(s)  
   → Optionally copy anchors + width  
   → Optionally skip child layers that already contain drawing  
   → Run in undo groups + Reset (⌘Z)  
 
 
-*Vertical Metrics Maker*  
-Create a GUI and helper to calculate and apply vertical font metrics based on drawing extremes and master settings. Designed to support consistent vertical behavior across masters and exports.  
+**Vertical Metrics Maker**  
+*Create a GUI and helper to calculate and apply vertical font metrics based on drawing extremes and master settings. Designed to support consistent vertical behavior across masters and exports.*  
 → Scans glyph outlines to determine vertical extremes  
 → Applies a recommended metric recipe for common export scenarios  
 → Writes font-level and master-level custom parameters correctly  
