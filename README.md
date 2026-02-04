@@ -28,6 +28,7 @@ A compact toolkit for modular and component-driven workflows in Glyphs 3:
 ## Tools  
 
 *Axis Twister*  
+Creates a GUI where you can “twist” Smart Component Axes in a specific glyph or selection of glyphs.  
   → Random ranges (min/max per axis, clamped to axis limits)  
   → Fixed lists (e.g. `100, 50, 25`) randomly applied per component  
   → Axis scoping: all axes or a specific named axis  
@@ -40,6 +41,7 @@ A compact toolkit for modular and component-driven workflows in Glyphs 3:
 
 
 *Component Swapper*  
+Creates a GUI where you can control swapping components in a specific glyph or selection of glyphs.  
   → Define a pool of replacement components  
   → Swap randomly from the pool  
   → Or swap using a specific list (`A → B → C → …`)  
@@ -52,6 +54,7 @@ A compact toolkit for modular and component-driven workflows in Glyphs 3:
 
 
 *Node Nudger*  
+Creates a GUI where you can "nudge nodes" in a specific glyph or selection of glyphs.  
   → Random or fixed X/Y nudging  
   → Independent toggles for “Nudge X” and “Nudge Y”  
   → Preserve-curve mode (move handles with on-curve points)  
@@ -62,6 +65,7 @@ A compact toolkit for modular and component-driven workflows in Glyphs 3:
 
 
 *Rotator Jig*  
+Creates a GUI to automate "rotational" intermediate layers.  
   → Builds real Intermediate (brace) layers along a chosen axis (current master only)  
   → Copies current-master outlines into each brace layer and rotates geometry around a fixed center  
   → Generates frames by degree step (endpoints excluded)  
@@ -75,8 +79,23 @@ A compact toolkit for modular and component-driven workflows in Glyphs 3:
   → This avoids interpolation artifacts at endpoints, due to for example a start node changing positions through rotation, and supports clean looping for animation (1 → 999 → 1)  
 
 
-*Seed Spreader*
-  → Seed Spreader propagates a parent drawing across all child layers of a glyph, enabling fast expansion of component-based character sets across multiple axes and styles.
+*Seed Spreader*  
+Create a GUI that helps propagates a parent drawing across all child layers of a glyph, enabling fast expansion of component-based character sets across multiple axes and styles  
+  → Propagate parent drawing to all child layers for selected glyph(s)  
+  → Optionally copy anchors + width  
+  → Optionally skip child layers that already contain drawing  
+  → Run in undo groups + Reset (⌘Z)  
+
+
+*Vertical Metrics Maker*  
+Create a GUI and helper to calculate and apply vertical font metrics based on drawing extremes and master settings. Designed to support consistent vertical behavior across masters and exports.  
+→ Scans glyph outlines to determine vertical extremes  
+→ Applies a recommended metric recipe for common export scenarios  
+→ Writes font-level and master-level custom parameters correctly  
+→ Optional line-gap calculation as a percentage of Ascender + Descender  
+→ Preview computed values before writing  
+→ Safe to rerun; existing parameters are updated, not duplicated  
+→ Reset button (single undo / ⌘Z)  
 
   
 

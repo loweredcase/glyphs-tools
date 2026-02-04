@@ -10,7 +10,7 @@ Creates a GUI to automate "rotational" intermediate layers.
 # Glyph Tools: Rotator Jig
 # --------------------------------------------------------------------
 # This script uses Vanilla to create a small window where you can:
-# → Build Intermediate (brace) layers along an axis for rotation-like interpolation
+# → Build Intermediate layers along an axis for faux-rotation interpolation
 # → Choose axis, angle range, step degrees, direction, and center point
 # → Optionally round node coordinates to integers
 # → Safe rerun (rebuilds generated braces)
