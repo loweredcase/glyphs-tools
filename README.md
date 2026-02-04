@@ -6,7 +6,7 @@ A compact toolkit for modular and component-driven workflows in Glyphs 3:
   → **Node Nudger** moves on-curve nodes by random or fixed x/y values; non-destructive options  
   → **Rotation Jig** builds Intermediate axis layers to simulate rotation via frame steps  
   → **Seed Spreader** helps propagates a parent drawing across all child layers of a glyph  
-  → **Vertical Metrics Maker** calculate and apply vertical font metrics based on drawing extremes and master settings  
+  → **Vertical Metrics Maker** calculate and apply vertical font metrics  
 
 
 **Requirements**  
