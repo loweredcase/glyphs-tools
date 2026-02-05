@@ -55,6 +55,14 @@
   → Reset button (`undo`)  
 
 
+**Mirror Mender**  
+*Creates a GUI to help find mirrored (reflected) components and correct them without moving their visual placement.*  
+  → Scope options (selected layers / selected glyphs / all exportable glyphs)  
+  → Master scope (current / all) when scanning beyond selected layers  
+  → Preview pane (compute first, then write)  
+  → Reset button (one undo step / ⌘Z)  
+
+
 **Node Nudger**  
 *Creates a GUI where you can "nudge nodes" in a specific glyph or selection of glyphs.*  
   → Random or fixed X/Y nudging  
@@ -102,3 +110,4 @@
   
 
 © Addition Projects 2026
+
