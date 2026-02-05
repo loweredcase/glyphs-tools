@@ -1,4 +1,4 @@
-# add code here#MenuTitle: Vertical Metrics Maker
+#MenuTitle: Vertical Metrics Maker
 # -*- coding: utf-8 -*-
 __doc__ = """
 Adds and sets recommended vertical-metric custom parameters in Glyphs 3.
