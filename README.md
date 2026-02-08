@@ -3,6 +3,8 @@
 *A compact toolkit for modular and component-driven workflows in Glyphs 3:*  
   → **Axis Twister** adjusts Smart Component axes (random or targeted); non-destructive options  
   → **Component Swapper** swaps components by pool, target scope, modulo; non-destructive options  
+  → **Grid Snapper**  find components slightly off grid and correct them 
+  → **Mirror Mender**  find mirrored (reflected) components and correct them  
   → **Node Nudger** moves on-curve nodes by random or fixed x/y values; non-destructive options  
   → **Rotation Jig** builds Intermediate axis layers to simulate rotation via frame steps  
   → **Seed Spreader** helps propagates a parent drawing across all child layers of a glyph  
@@ -27,7 +29,7 @@
   → Open *Window → Macro Panel* to inspect output  
 
 
-## Tools  
+## Drawing Tools  
 
 **Axis Twister**  
 *Creates a GUI where you can “twist” Smart Component Axes in a specific glyph or selection of glyphs.*  
@@ -53,6 +55,15 @@
   → Duplicate to new layer or new glyph with a suffix or versioning  
   → Edit-tab updates insert new glyphs directly after the original  
   → Reset button (`undo`)  
+
+
+  **Grid Snapper**  
+*Rounds component placement (transform translation) to a user-defined grid increment.*  
+→ Scope options (selected layers / selected glyphs / all exportable glyphs)  
+→ Master scope (current / all) when scanning beyond selected layers  
+→ Snap step + tolerance (only snap when close to a gridline)  
+→ Preview pane (compute first, then write)  
+→ Reset button (one undo step / ⌘Z)  
 
 
 **Mirror Mender**  
@@ -110,4 +121,6 @@
   
 
 © Addition Projects 2026
+
+
 

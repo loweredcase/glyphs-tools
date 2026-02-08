@@ -110,20 +110,13 @@ class SeedSpreaderUI(object):
 		)
 		y += 18
 
-		# Subtitle (italic)
-		self.w.subTitle = TextBox((12, y, -12, 18), "Propagate parent drawing to all child layers", sizeStyle="small")
-		try:
-			self.w.subTitle._nsObject.setFont_(GlyphsApp.NSFont.italicSystemFontOfSize_(11))
-		except Exception:
-			# If italic font call isn't available in this font, it's fine to stay regular.
-			pass
-		y += 22
+
 
 		self.w.sep1 = HorizontalLine((12, y, -12, 1)); y += 12
 
 		self.w.copyShapes = CheckBox((12, y, -12, 20), "Copy shapes (paths + components)", value=True, sizeStyle="small")
 		y += 22
-		self.w.copyAnchors = CheckBox((12, y, -12, 20), "Copy anchors", value=False, sizeStyle="small")
+		self.w.copyAnchors = CheckBox((12, y, -12, 20), "Copy anchors", value=True, sizeStyle="small")
 		y += 22
 		self.w.copyWidth = CheckBox((12, y, -12, 20), "Copy width", value=True, sizeStyle="small")
 		y += 22
