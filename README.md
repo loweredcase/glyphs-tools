@@ -28,7 +28,7 @@
   → Scripts appear under the *Scripts* menu after reloading  
   → Open *Window → Macro Panel* to inspect output  
 
-
+<br>
 ## Drawing Tools  
 
 **Axis Twister**  
@@ -89,7 +89,7 @@
   → Optionally copy anchors + width  
   → Optionally skip child layers that already contain drawing  
   → Run in undo groups + Reset (⌘Z)  
-
+<br>
 
 ## Production Tools  
 
@@ -120,7 +120,7 @@
 → Reset button (single undo / ⌘Z)  
 
   
-
+<br>
 © Addition Projects 2026
 
 
