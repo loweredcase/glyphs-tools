@@ -32,7 +32,7 @@
 ## Drawing Tools  
 
 **Axis Twister**  
-*Creates a GUI where you can “twist” Smart Component Axes in a specific glyph or selection of glyphs.*  
+*Adjust Smart Component Axes in a specific glyph or selection of glyphs.*  
   → Random ranges (min/max per axis, clamped to axis limits)  
   → Fixed lists (e.g. `100, 50, 25`) randomly applied per component  
   → Axis scoping: all axes or a specific named axis  
@@ -45,7 +45,7 @@
 
 
 **Component Swapper**  
-*Creates a GUI where you can control swapping components in a specific glyph or selection of glyphs.*  
+*Automate and control swapping components in a specific glyph or selection of glyphs.*  
   → Define a pool of replacement components  
   → Swap randomly from the pool  
   → Or swap using a specific list (`A → B → C → …`)  
@@ -58,7 +58,7 @@
 
 
 **Node Nudger**  
-*Creates a GUI where you can "nudge nodes" in a specific glyph or selection of glyphs.*  
+*Move nodes in a specific glyph or selection of glyphs.*  
   → Random or fixed X/Y nudging  
   → Independent toggles for “Nudge X” and “Nudge Y”  
   → Preserve-curve mode (move handles with on-curve points)  
@@ -69,7 +69,7 @@
 
 
 **Rotator Jig**  
-*Creates a GUI to automate "rotational" intermediate layers.*  
+*Automate intermediate layers for faux-rotational effects.*  
   → Builds real Intermediate (brace) layers along a chosen axis (current master only)  
   → Copies current-master outlines into each brace layer and rotates geometry around a fixed center  
   → Generates frames by degree step (endpoints excluded)  
@@ -83,7 +83,7 @@
 
 
 **Seed Spreader**  
-*Create a GUI that helps propagates a parent drawing across all child layers of a glyph, enabling fast expansion of component-based character sets across multiple axes and styles.*  
+*Propagates a parent drawing across all child layers of a glyph.*  
   → Propagate parent drawing to all child layers for selected glyph(s)  
   → Optionally copy anchors + width  
   → Optionally skip child layers that already contain drawing  
@@ -102,14 +102,14 @@
 
 
 **Mirror Mender**  
-*Creates a GUI to help find mirrored (reflected) components and correct them without moving their visual placement.*  
+*Find mirrored (reflected) components and correct them without moving their visual placement.*  
   → Scope options (selected layers / selected glyphs / all exportable glyphs)  
   → Master scope (current / all) when scanning beyond selected layers  
   → Preview pane (compute first, then write)  
   → Reset button (one undo step / ⌘Z)  
 
 **Vertical Metrics Maker**  
-*Create a GUI and helper to calculate and apply vertical font metrics based on drawing extremes and master settings. Designed to support consistent vertical behavior across masters and exports.*  
+*Calculate and apply vertical font metrics based on drawing extremes and master settings.*  
 → Scans glyph outlines to determine vertical extremes  
 → Applies a recommended metric recipe for common export scenarios  
 → Writes font-level and master-level custom parameters correctly  
