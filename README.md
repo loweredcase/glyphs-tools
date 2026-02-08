@@ -1,6 +1,6 @@
 ## Overview  
 
-*A compact toolkit for modular and component-driven workflows in Glyphs 3:*  
+*A toolkit for modular and component-driven workflows in Glyphs 3:*  
   → **Axis Twister** adjusts Smart Component axes (random or targeted); non-destructive options  
   → **Component Swapper** swaps components by pool, target scope, modulo; non-destructive options  
   → **Grid Snapper**  find components slightly off grid and correct them  
@@ -20,7 +20,7 @@
   → Clone or download this repo  
   → Place scripts in your Glyphs Scripts folder:  
       `Glyphs → Preferences → Addons → Scripts → Open Scripts Folder`  
-  → Refresh scripts:  
+  → Refresh scripts (hold option to reveal menu option):  
       `Scripts → Reload Scripts`  
 
 
@@ -79,8 +79,7 @@
   → Reset button (`undo / ⌘Z`)  
 
   Note on rotation:  
-  → Rotator Jig intentionally caps its final intermediate brace at **max-1** (e.g. **999** when max is 1000)  
-  → This avoids interpolation artifacts at endpoints, due to for example a start node changing positions through rotation, and supports clean looping for animation (1 → 999 → 1)  
+  → Rotator Jig intentionally caps its final intermediate brace at **max-1** (e.g. **999** when max is 1000). It is recommended to have both your first master (e.g. AXIS @ 0) and end master (e.g. AXIS @ 1000) the exact same drawing. This avoids interpolation artifacts at endpoints, due to for example a start node changing positions through rotation, and supports clean looping for animation (1 → 999 → 1).  
 
 
 **Seed Spreader**  

@@ -59,7 +59,7 @@ def duplicateLayer_withName(layer, name_if_any=None, tag="SwapComponents"):
 	newLayer = layer.copy()
 	baseName = layer.name or ""
 	label = (name_if_any.strip() if name_if_any and name_if_any.strip()
-	         else f"{tag}_{timestamp_str()}")
+			 else f"{tag}_{timestamp_str()}")
 	newLayer.name = (f"{baseName} {label}".strip() if baseName else label)
 	glyph.layers.append(newLayer)
 	return newLayer
