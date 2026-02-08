@@ -27,8 +27,8 @@
 **Usage**  
   → Scripts appear under the *Scripts* menu after reloading  
   → Open *Window → Macro Panel* to inspect output  
-
 <br>
+
 ## Drawing Tools  
 
 **Axis Twister**  
@@ -121,6 +121,8 @@
 
   
 <br>
+<br>
+
 © Addition Projects 2026
 
 
