@@ -3,7 +3,7 @@
 *A compact toolkit for modular and component-driven workflows in Glyphs 3:*  
   → **Axis Twister** adjusts Smart Component axes (random or targeted); non-destructive options  
   → **Component Swapper** swaps components by pool, target scope, modulo; non-destructive options  
-  → **Grid Snapper**  find components slightly off grid and correct them 
+  → **Grid Snapper**  find components slightly off grid and correct them  
   → **Mirror Mender**  find mirrored (reflected) components and correct them  
   → **Node Nudger** moves on-curve nodes by random or fixed x/y values; non-destructive options  
   → **Rotation Jig** builds Intermediate axis layers to simulate rotation via frame steps  
@@ -57,23 +57,6 @@
   → Reset button (`undo`)  
 
 
-  **Grid Snapper**  
-*Rounds component placement (transform translation) to a user-defined grid increment.*  
-→ Scope options (selected layers / selected glyphs / all exportable glyphs)  
-→ Master scope (current / all) when scanning beyond selected layers  
-→ Snap step + tolerance (only snap when close to a gridline)  
-→ Preview pane (compute first, then write)  
-→ Reset button (one undo step / ⌘Z)  
-
-
-**Mirror Mender**  
-*Creates a GUI to help find mirrored (reflected) components and correct them without moving their visual placement.*  
-  → Scope options (selected layers / selected glyphs / all exportable glyphs)  
-  → Master scope (current / all) when scanning beyond selected layers  
-  → Preview pane (compute first, then write)  
-  → Reset button (one undo step / ⌘Z)  
-
-
 **Node Nudger**  
 *Creates a GUI where you can "nudge nodes" in a specific glyph or selection of glyphs.*  
   → Random or fixed X/Y nudging  
@@ -107,6 +90,24 @@
   → Optionally skip child layers that already contain drawing  
   → Run in undo groups + Reset (⌘Z)  
 
+
+## Production Tools  
+
+  **Grid Snapper**  
+*Rounds component placement (transform translation) to a user-defined grid increment.*  
+→ Scope options (selected layers / selected glyphs / all exportable glyphs)  
+→ Master scope (current / all) when scanning beyond selected layers  
+→ Snap step + tolerance (only snap when close to a gridline)  
+→ Preview pane (compute first, then write)  
+→ Reset button (one undo step / ⌘Z)  
+
+
+**Mirror Mender**  
+*Creates a GUI to help find mirrored (reflected) components and correct them without moving their visual placement.*  
+  → Scope options (selected layers / selected glyphs / all exportable glyphs)  
+  → Master scope (current / all) when scanning beyond selected layers  
+  → Preview pane (compute first, then write)  
+  → Reset button (one undo step / ⌘Z)  
 
 **Vertical Metrics Maker**  
 *Create a GUI and helper to calculate and apply vertical font metrics based on drawing extremes and master settings. Designed to support consistent vertical behavior across masters and exports.*  
