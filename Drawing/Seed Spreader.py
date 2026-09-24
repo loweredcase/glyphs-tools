@@ -5,7 +5,7 @@ Propagates a parent drawing across all child layers of a glyph.
 """
 
 # --------------------------------------------------------------------
-# Addition Projects - Last Update, Feb 2 2026
+# Addition Projects - Last Update, Sep 24 2026
 # --------------------------------------------------------------------
 # Glyph Tools: Seed Spreader
 # --------------------------------------------------------------------
@@ -133,7 +133,6 @@ class SeedSpreaderUI(object):
 
 		self.w.runBtn   = Button((12,  y, 130, 32), "Run 🏁",   callback=self.run)
 		self.w.resetBtn = Button((154, y, 130, 32), "Reset ⌘Z", callback=self.reset)
-		self.w.closeBtn = Button((296, y, 130, 32), "Close",    callback=self.close)
 		y += 44
 
 		# trim bottom
@@ -243,8 +242,6 @@ class SeedSpreaderUI(object):
 
 		print(f"✔ Seed Spreader: updated {totalTargets} child layer(s). Skipped {totalSkipped} (already had drawing).")
 
-	def close(self, sender):
-		self.w.close()
 
 
 SeedSpreaderUI()

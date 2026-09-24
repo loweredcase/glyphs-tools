@@ -1,128 +1,57 @@
-## Overview  
+# Addition Projects — Glyphs Tools
 
-*A toolkit for modular and component-driven workflows in Glyphs 3:*  
-  → **Axis Twister** adjusts Smart Component axes (random or targeted); non-destructive options  
-  → **Component Swapper** swaps components by pool, target scope, modulo; non-destructive options  
-  → **Grid Snapper**  find components slightly off grid and correct them  
-  → **Mirror Mender**  find mirrored (reflected) components and correct them  
-  → **Node Nudger** moves on-curve nodes by random or fixed x/y values; non-destructive options  
-  → **Rotation Jig** builds Intermediate axis layers to simulate rotation via frame steps  
-  → **Seed Spreader** helps propagates a parent drawing across all child layers of a glyph  
-  → **Vertical Metrics Maker** calculate and apply vertical font metrics  
+A small collection of modular drawing and font-production tools for **Glyphs 4**.
 
+## Requirements
 
-**Requirements**  
-  → Glyphs 3 (3.4.x–3.5.x)  
-  → Python + Vanilla enabled  
+- Glyphs 4
+- Python installed/selected in Glyphs
+- Vanilla installed from **Window → Plugin Manager → Modules**
 
+## Tools
 
-**Installation**  
-  → Clone or download this repo  
-  → Place scripts in your Glyphs Scripts folder:  
-      `Glyphs → Preferences → Addons → Scripts → Open Scripts Folder`  
-  → Refresh scripts (hold option to reveal menu option):  
-      `Scripts → Reload Scripts`  
+### Drawing
 
+- **Axis Twister** — adjust Smart Component / glyph-local axis values randomly or from fixed values, with component and axis scoping.
+- **Component Swapper** — swap components from a pool, with targeting, modulo, chance, and non-destructive duplication options.
+- **Node Nudger** — move on-curve nodes and/or handles by random or fixed X/Y values.
+- **Rotator Jig** — build Intermediate layers across an axis to simulate rotational interpolation.
+- **Seed Spreader** — propagate a parent/master drawing to related child layers.
 
-**Usage**  
-  → Scripts appear under the *Scripts* menu after reloading  
-  → Open *Window → Macro Panel* to inspect output  
-<br>
+### Production
 
-## Drawing Tools  
+- **Grid Snapper** — find component translations slightly off a chosen grid and snap them back into place.
+- **Mirror Mender** — find reflected components and correct their transforms while preserving placement.
+- **Vertical Metrics Maker** — calculate, preview, and apply vertical font metrics.
 
-**Axis Twister**  
-*Adjust Smart Component Axes in a specific glyph or selection of glyphs.*  
-  → Random ranges (min/max per axis, clamped to axis limits)  
-  → Fixed lists (e.g. `100, 50, 25`) randomly applied per component  
-  → Axis scoping: all axes or a specific named axis  
-  → Component scoping: all smart components or only names in a pool  
-  → Chance (%) + affect every Nth component (`1 = all`, `2 = every other`, `3 = every third`)  
-  → Optional random counter generation (decompose + reverse shapes to create cutouts)  
-  → Duplicate to new layer or new glyph with custom naming  
-  → New glyphs appear immediately after the original in the Edit tab  
-  → Reset button (`undo / ⌘Z`)  
+## Installation
 
+### Plugin Manager
 
-**Component Swapper**  
-*Automate and control swapping components in a specific glyph or selection of glyphs.*  
-  → Define a pool of replacement components  
-  → Swap randomly from the pool  
-  → Or swap using a specific list (`A → B → C → …`)  
-  → Target scope: all components in the pool or a single component name  
-  → Modulo alternation: even/odd or every Nth component  
-  → Chance (%) determines how often replacements occur  
-  → Duplicate to new layer or new glyph with a suffix or versioning  
-  → Edit-tab updates insert new glyphs directly after the original  
-  → Reset button (`undo`)  
+Once this collection is listed in the Glyphs package index, install it from:
 
+**Window → Plugin Manager → Scripts**
 
-**Node Nudger**  
-*Move nodes in a specific glyph or selection of glyphs.*  
-  → Random or fixed X/Y nudging  
-  → Independent toggles for “Nudge X” and “Nudge Y”  
-  → Preserve-curve mode (move handles with on-curve points)  
-  → Or nudge handles independently (for more glitch-driven outcomes)  
-  → Duplicate to new layer or new glyph (timestamped naming options)  
-  → New glyphs appear directly after the source in the Edit tab  
-  → Reset button (`undo`)  
+Then hold **Option** and choose **Script → Reload Scripts**.
 
+### Manual installation
 
-**Rotator Jig**  
-*Automate intermediate layers for faux-rotational effects.*  
-  → Builds real Intermediate (brace) layers along a chosen axis (current master only)  
-  → Copies current-master outlines into each brace layer and rotates geometry around a fixed center  
-  → Generates frames by degree step (endpoints excluded)  
-  → Clockwise / counter-clockwise direction toggle  
-  → Optional integer rounding to avoid fractional node coordinates  
-  → Safe to rerun (rebuilds only the generated brace layers)  
-  → Reset button (`undo / ⌘Z`)  
+1. In Glyphs, choose **Script → Open Scripts Folder**.
+2. Put this repository (or an alias/symlink to it) in that folder.
+3. Hold **Option** and choose **Script → Reload Scripts**.
 
-  Note on rotation:  
-  → Rotator Jig intentionally caps its final intermediate brace at **max-1** (e.g. **999** when max is 1000). It is recommended to have both your first master (e.g. `AXIS @ 0`) and end master (e.g. `AXIS @ 1000`) the exact same drawing. This avoids interpolation artifacts at endpoints, due to, for example, a start node changing positions through rotation, and supports clean looping for animation (1 → 999 → 1).  
+The `Drawing` and `Production` folders appear as submenus in Glyphs’ Script menu.
 
+## Development
 
-**Seed Spreader**  
-*Propagates a parent drawing across all child layers of a glyph.*  
-  → Propagate parent drawing to all child layers for selected glyph(s)  
-  → Optionally copy anchors + width  
-  → Optionally skip child layers that already contain drawing  
-  → Run in undo groups + Reset (⌘Z)  
-<br>
+The Git repository does not need to live inside the Glyphs Scripts folder. A convenient development setup is to keep one canonical checkout in a normal code folder and place an alias/symlink to it in the Glyphs 4 Scripts folder. VS Code edits the canonical checkout; Glyphs loads the same files through the alias/symlink.
 
-## Production Tools  
+## Glyphs 4 notes
 
-  **Grid Snapper**  
-*Rounds component placement (transform translation) to a user-defined grid increment.*  
-→ Scope options (selected layers / selected glyphs / all exportable glyphs)  
-→ Master scope (current / all) when scanning beyond selected layers  
-→ Snap step + tolerance (only snap when close to a gridline)  
-→ Preview pane (compute first, then write)  
-→ Reset button (one undo step / ⌘Z)  
+This branch targets Glyphs 4’s current APIs, including glyph-local axes (`GSGlyph.axes`) for Smart Components and explicit Intermediate-layer coordinate APIs. Compatibility fallbacks are retained in a few places where they are harmless.
 
+## License
 
-**Mirror Mender**  
-*Find mirrored (reflected) components and correct them without moving their visual placement.*  
-  → Scope options (selected layers / selected glyphs / all exportable glyphs)  
-  → Master scope (current / all) when scanning beyond selected layers  
-  → Preview pane (compute first, then write)  
-  → Reset button (one undo step / ⌘Z)  
-
-**Vertical Metrics Maker**  
-*Calculate and apply vertical font metrics based on drawing extremes and master settings.*  
-→ Scans glyph outlines to determine vertical extremes  
-→ Applies a recommended metric recipe for common export scenarios  
-→ Writes font-level and master-level custom parameters correctly  
-→ Optional line-gap calculation as a percentage of Ascender + Descender  
-→ Preview computed values before writing  
-→ Safe to rerun; existing parameters are updated, not duplicated  
-→ Reset button (single undo / ⌘Z)  
-
-  
-<br>
-<br>
+Apache License 2.0. See `LICENSE`.
 
 © Addition Projects 2026
-
-
-

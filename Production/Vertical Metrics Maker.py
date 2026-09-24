@@ -1,12 +1,12 @@
 #MenuTitle: Vertical Metrics Maker
 # -*- coding: utf-8 -*-
 __doc__ = """
-Adds and sets recommended vertical-metric custom parameters in Glyphs 3.
+Adds and sets recommended vertical-metric custom parameters in Glyphs 4.
 """
 
 
 # --------------------------------------------------------------------
-# Addition Projects - Last Update, Feb 4 2026
+# Addition Projects - Last Update, Sep 24 2026
 # --------------------------------------------------------------------
 # Glyph Tools: Vertical Metrics Maker
 # --------------------------------------------------------------------
@@ -20,6 +20,7 @@ Adds and sets recommended vertical-metric custom parameters in Glyphs 3.
 
 import math
 import GlyphsApp
+from AppKit import NSColor
 from vanilla import Window, TextBox, EditText, Button, PopUpButton, CheckBox, HorizontalLine, TextEditor
 
 Font = Glyphs.font
@@ -295,7 +296,7 @@ class VerticalMetricsUI(object):
 			ns.setEditable_(False)
 			ns.setSelectable_(True)
 			ns.setDrawsBackground_(True)
-			ns.setBackgroundColor_(GlyphsApp.NSColor.whiteColor())
+			ns.setBackgroundColor_(NSColor.whiteColor())
 		except Exception:
 			pass
 		y += 106
@@ -309,7 +310,6 @@ class VerticalMetricsUI(object):
 		self.w.previewBtn = Button((x0 + (btnW + gap) * 0, btnY, btnW, 32), "Preview", callback=self.previewValues)
 		self.w.runBtn     = Button((x0 + (btnW + gap) * 1, btnY, btnW, 32), "Run 🏁", callback=self.run)
 		self.w.resetBtn   = Button((x0 + (btnW + gap) * 2, btnY, btnW, 32), "Reset ⌘Z", callback=self.reset)
-		self.w.closeBtn   = Button((x0 + (btnW + gap) * 3, btnY, btnW, 32), "Close", callback=self.close)
 		y += 44
 
 		# Trim
@@ -537,8 +537,6 @@ class VerticalMetricsUI(object):
 			print("→ Use Typo Metrics = yes")
 		print("✅ Done.")
 
-	def close(self, sender):
-		self.w.close()
 
 
 VerticalMetricsUI()

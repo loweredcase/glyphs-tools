@@ -5,7 +5,7 @@ Creates a GUI where you can “twist” Smart Component Axes in a specific glyph
 """
 
 # --------------------------------------------------------------------
-# Addition Projects - Last Update, Nov 22 2025
+# Addition Projects - Last Update, Sep 24 2026
 # --------------------------------------------------------------------
 # Glyph Tools: Axis Twister
 # --------------------------------------------------------------------
@@ -54,6 +54,74 @@ def timestamp_str():
 def parsePool(text):
 	return [n.strip() for n in text.replace(";", ",").split(",") if n.strip()]
 
+def smart_axes_for_glyph(glyph):
+	"""Return Glyphs 4 glyph-local axes, with a Glyphs 3 fallback."""
+	try:
+		axes = list(glyph.axes or [])
+		if axes:
+			return axes
+	except Exception:
+		pass
+	try:
+		return list(glyph.smartComponentAxes or [])
+	except Exception:
+		return []
+
+def axis_id(axis):
+	return getattr(axis, "axisId", None) or getattr(axis, "id", None)
+
+def explicit_layer_coordinate(layer, axisID):
+	"""Return an explicit Intermediate-layer coordinate or None."""
+	if not axisID:
+		return None
+	try:
+		coords = layer.coordinates
+		if callable(coords):
+			coords = coords()
+		if coords is not None and axisID in coords:
+			return float(coords[axisID])
+	except Exception:
+		pass
+	# Glyphs 3 / serialized-coordinate fallback
+	try:
+		coords = (layer.attributes or {}).get("coordinates")
+		if coords is not None and axisID in coords:
+			return float(coords[axisID])
+	except Exception:
+		pass
+	return None
+
+def axis_range_for_glyph(base, axis, masterID=None):
+	"""Get the usable range for a smart axis in Glyphs 4 or Glyphs 3."""
+	# Glyphs 3 smart-component properties expose explicit bottom/top values.
+	try:
+		return (float(axis.bottomValue), float(axis.topValue))
+	except Exception:
+		pass
+
+	# Glyphs 4 smart glyphs use regular GSAxis objects plus Intermediate layers.
+	axisID = axis_id(axis)
+	values = []
+	try:
+		values.append(float(axis.defaultValue))
+	except Exception:
+		pass
+
+	for layer in (base.layers or []):
+		try:
+			associated = getattr(layer, "associatedMasterId", None)
+			if masterID and associated and associated != masterID:
+				continue
+		except Exception:
+			pass
+		v = explicit_layer_coordinate(layer, axisID)
+		if v is not None:
+			values.append(v)
+
+	if not values:
+		return (0.0, 100.0)
+	return (min(values), max(values))
+
 def discover_axis_names_from_selection(layers):
 	names = set()
 	for layer in (layers or []):
@@ -61,29 +129,29 @@ def discover_axis_names_from_selection(layers):
 			base = comp.component
 			if not base or comp.smartComponentValues is None:
 				continue
-			axes = base.smartComponentAxes or []
-			for ax in axes:
+			for ax in smart_axes_for_glyph(base):
 				if ax and ax.name:
 					names.add(ax.name)
 	return sorted(names)
 
 def axis_map_for_component(comp):
-	"""
-	Returns: { axisName: (axisID, minVal, maxVal) } for this component.
-	"""
+	"""Return {axisName: (axisID, minVal, maxVal)} for a smart component."""
 	mapping = {}
 	base = comp.component
 	if not base or comp.smartComponentValues is None:
 		return mapping
-	axes = base.smartComponentAxes or []
-	for ax in axes:
-		if not ax:
+	try:
+		masterID = getattr(comp.parent, "associatedMasterId", None)
+	except Exception:
+		masterID = None
+	for ax in smart_axes_for_glyph(base):
+		if not ax or not getattr(ax, "name", None):
 			continue
-		mapping[ax.name] = (
-			ax.id,
-			float(ax.bottomValue),
-			float(ax.topValue),
-		)
+		axID = axis_id(ax)
+		if not axID:
+			continue
+		lo, hi = axis_range_for_glyph(base, ax, masterID)
+		mapping[ax.name] = (axID, lo, hi)
 	return mapping
 
 def findNextVersionedGlyphName(baseName):
@@ -324,7 +392,6 @@ class AxisTwisterUI(object):
 		# Buttons
 		self.w.runBtn   = Button((12,  y, 130, 32), "Run 🏁",   callback=self.run)
 		self.w.resetBtn = Button((154, y, 130, 32), "Reset ⌘Z", callback=self.reset)
-		self.w.closeBtn = Button((296, y, 130, 32), "Close",    callback=self.close)
 		y += 44
 
 		# Trim bottom
@@ -684,8 +751,6 @@ class AxisTwisterUI(object):
 			f"{layerMsg}, {glyphMsg}, {counterMsg}, CounterChance={counterChance}%."
 		)
 
-	def close(self, sender):
-		self.w.close()
 
 
 AxisTwisterUI()

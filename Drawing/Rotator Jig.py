@@ -5,7 +5,7 @@ Creates a GUI to automate "rotational" intermediate layers.
 """
 
 # --------------------------------------------------------------------
-# Addition Projects - Last Update, Jan 29 2026
+# Addition Projects - Last Update, Sep 24 2026
 # --------------------------------------------------------------------
 # Glyph Tools: Rotator Jig
 # --------------------------------------------------------------------
@@ -93,40 +93,46 @@ def axis_items(font):
 	return tags, tag_to_id
 
 def set_brace_coordinates(layer, font, master, axisIdToOverride, overrideValue):
+	"""Set an Intermediate-layer coordinate using the Glyphs 4 API.
+
+	Unspecified axes inherit their associated-master/default coordinates in Glyphs 4.
+	The attributes fallback keeps the script usable with older Glyphs files/APIs.
+	"""
+	if not axisIdToOverride:
+		return
+
+	value = float(overrideValue)
+
+	# Glyphs 4: explicit Intermediate-layer coordinate API.
 	try:
-		if layer.attributes is None:
-			layer.attributes = {}
+		layer.setCoordinate_forAxisId_(value, axisIdToOverride)
+		return
 	except Exception:
 		pass
 
+	# Compatibility fallback for older Glyphs/Python wrappers.
 	try:
+		if layer.attributes is None:
+			layer.attributes = {}
 		coords = layer.attributes.get("coordinates")
-	except Exception:
-		coords = None
+		if coords is None:
+			layer.attributes["coordinates"] = {}
+			coords = layer.attributes["coordinates"]
 
-	if coords is None:
-		layer.attributes["coordinates"] = {}
-		coords = layer.attributes["coordinates"]
-
-	# Base coordinates = current master axes
-	try:
-		masterAxes = list(master.axes)
-	except Exception:
-		masterAxes = []
-
-	for i, ax in enumerate(font.axes or []):
+		# Older APIs expect a complete coordinate location, so seed it from the master.
 		try:
-			baseVal = masterAxes[i] if i < len(masterAxes) else 0
-			coords[ax.axisId] = baseVal
+			masterAxes = list(master.axes)
 		except Exception:
-			pass
-
-	# Override chosen axis
-	if axisIdToOverride:
-		try:
-			coords[axisIdToOverride] = int(overrideValue)
-		except Exception:
-			pass
+			masterAxes = []
+		for i, ax in enumerate(font.axes or []):
+			try:
+				baseVal = masterAxes[i] if i < len(masterAxes) else 0
+				coords[ax.axisId] = baseVal
+			except Exception:
+				pass
+		coords[axisIdToOverride] = value
+	except Exception as e:
+		print(f"⚠️ Could not set Intermediate coordinate: {e}")
 
 def remove_existing_braces_for_master(glyph, masterId, axisTag, axisValues):
 	names = set(brace_name(axisTag, v) for v in axisValues)
@@ -235,7 +241,6 @@ class RotationJigUI(object):
 		# Buttons
 		self.w.runBtn   = Button((12,  y, 130, 32), "Run 🏁",   callback=self.run)
 		self.w.resetBtn = Button((154, y, 130, 32), "Reset ⌘Z", callback=self.reset)
-		self.w.closeBtn = Button((296, y, 130, 32), "Close",    callback=self.close)
 		y += 44
 
 		# Trim bottom
@@ -383,8 +388,6 @@ class RotationJigUI(object):
 
 		print("✅ Done.")
 
-	def close(self, sender):
-		self.w.close()
 
 
 RotationJigUI()

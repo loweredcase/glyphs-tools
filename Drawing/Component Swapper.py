@@ -5,16 +5,16 @@ Creates a GUI where you can control swapping components in a specific glyph or s
 """
 
 # --------------------------------------------------------------------
-# Addition Projects - Last Update, Nov 22 2025
+# Addition Projects - Last Update, Sep 24 2026
 # --------------------------------------------------------------------
 # Glyph Tools: Component Swapper
 # --------------------------------------------------------------------
 # This script uses Vanilla to create a small window where you can:
-# → Make a pool of possible components (comma-separated)
-# → Choose whether to swap all or only one target
-# → Replace randomly from the pool, or
-# → Replace specifically using one or more named components
-# → Replace through Modulo or cycling A → B → C → A → …
+# → Choose or type the target component to replace
+# → Enter a comma-separated list of replacement components
+# → Replace randomly from that list, or cycle A → B → C → A → …
+# → Optionally target all components instead of one named component
+# → Optionally alternate every other component
 # → Option to make the new glyph on a new layer or in a new glyph
 # → Option to rename the layer or new glyph
 # → Use a Reset button that calls undo (same as pressing ⌘Z once)
@@ -23,7 +23,7 @@ Creates a GUI where you can control swapping components in a specific glyph or s
 
 import GlyphsApp, random
 from GlyphsApp import GSGlyph, GSLayer
-from vanilla import Window, TextBox, EditText, Button, PopUpButton, CheckBox, HorizontalLine
+from vanilla import FloatingWindow, TextBox, EditText, Button, PopUpButton, CheckBox, ComboBox, HorizontalLine
 from datetime import datetime
 
 Font = Glyphs.font
@@ -47,7 +47,10 @@ def setComponentName(comp, newName):
 	try:
 		comp.componentName = newName
 	except Exception:
-		g = Font.glyphs.get(newName)
+		try:
+			g = Font.glyphs[newName]
+		except Exception:
+			g = None
 		if g:
 			comp.component = g
 
@@ -152,31 +155,32 @@ def focusLayer(layer):
 
 class SwapComponentsGUI(object):
 	def __init__(self):
-		self.w = Window((440, 640), "Component Swapper")
+		self.w = FloatingWindow((440, 610), "Component Swapper")
+		self.lastUndoGlyphs = []
+		self.lastCreatedGlyphNames = []
 
 		y = 12
-		# CLUSTER 1: Pool
-		self.w.poolTitle = TextBox((12, y, -12, 18), "Possible Components (comma-separated):", sizeStyle="small"); y += 20
-		self.w.pool = EditText((12, y, -12, 22), "_part.circle, _part.square, _part.triangle", sizeStyle="small", callback=self.onPoolChange); y += 28
-		self.w.sep1 = HorizontalLine((12, y, -12, 1)); y += 14
-
-		# CLUSTER 2: Target scope & replacement
-		self.w.scopeLabel = TextBox((12, y, 160, 18), "Target scope:", sizeStyle="small")
-		self.w.scope = PopUpButton((172, y, -12, 20), ["All (in pool)", "Only this name"], sizeStyle="small", callback=self.updateEnableStates); y += 26
-
-		self.w.targetLabel = TextBox((12, y, 160, 18), "Specific target name:", sizeStyle="small")
-		self.w.targetName = PopUpButton((172, y, -12, 20), ["(no selection)"], sizeStyle="small"); y += 26
-
-		self.w.replModeLabel = TextBox((12, y, 160, 18), "Replacement mode:", sizeStyle="small")
-		self.w.replMode = PopUpButton((172, y, -12, 20), ["Random from pool", "Specific list"], sizeStyle="small", callback=self.updateEnableStates); y += 26
-
-		self.w.replLabel = TextBox((12, y, 220, 18), "Specific replacement list:", sizeStyle="small")
-		self.w.replName = EditText((172, y, -12, 22), "", sizeStyle="small")
+		# CLUSTER 1: Target + replacements
+		self.w.targetLabel = TextBox((12, y, 160, 18), "Target component:", sizeStyle="small")
+		self.w.targetName = ComboBox((172, y, -12, 22), [], sizeStyle="small")
 		try:
-			self.w.replName._nsObject.setPlaceholderString_("e.g. _part.circle, _part.triangle")
+			self.w.targetName.getNSComboBox().setPlaceholderString_("type or choose, e.g. pixel")
 		except Exception:
 			pass
 		y += 28
+
+		self.w.scopeLabel = TextBox((12, y, 160, 18), "Target scope:", sizeStyle="small")
+		self.w.scope = PopUpButton((172, y, -12, 20), ["Only target above", "All components"], sizeStyle="small", callback=self.updateEnableStates); y += 26
+
+		self.w.poolTitle = TextBox((12, y, 160, 18), "Replacement components:", sizeStyle="small")
+		self.w.pool = EditText((172, y, -12, 22), "_part.circle, _part.square, _part.triangle", sizeStyle="small"); y += 28
+		try:
+			self.w.pool._nsObject.setPlaceholderString_("comma-separated glyph names")
+		except Exception:
+			pass
+
+		self.w.replModeLabel = TextBox((12, y, 160, 18), "Replacement order:", sizeStyle="small")
+		self.w.replMode = PopUpButton((172, y, -12, 20), ["Random", "Cycle through list"], sizeStyle="small", callback=self.updateEnableStates); y += 26
 
 		self.w.pctLabel = TextBox((12, y, 160, 18), "Swap chance (%):", sizeStyle="small")
 		self.w.pct = EditText((172, y, 60, 22), "100", sizeStyle="small"); y += 28
@@ -215,7 +219,7 @@ class SwapComponentsGUI(object):
 		# Buttons (Run / Reset / Close)
 		self.w.runBtn   = Button((12,  y, 130, 32), "Run 🏁",   callback=self.run)
 		self.w.resetBtn = Button((154, y, 130, 32), "Reset ⌘Z", callback=self.reset)
-		self.w.closeBtn = Button((296, y, 130, 32), "Close",    callback=self.close)
+		self.w.closeBtn = Button((296, y, 130, 32), "Close",    callback=self.closeWindow)
 		y += 44
 
 		# Trim bottom
@@ -230,30 +234,28 @@ class SwapComponentsGUI(object):
 	# ---------- edit view updates ----------
 
 	def refreshFromSelection(self, preserve=True):
-		old_text = None
+		# ComboBox is editable: keep whatever the user typed, while refreshing suggestions.
+		old_text = ""
 		if preserve:
 			try:
-				items = self.w.targetName.getItems()
-				idx = self.w.targetName.get()
-				if 0 <= idx < len(items):
-					old_text = items[idx]
+				old_text = (self.w.targetName.get() or "").strip()
 			except Exception:
 				pass
 		names = uniqueComponentNamesInSelection()
-		items = names if names else ["(no selection)"]
-		self.w.targetName.setItems(items)
-		if preserve and old_text in items:
-			self.w.targetName.set(items.index(old_text))
+		self.w.targetName.setItems(names)
+		if old_text:
+			self.w.targetName.set(old_text)
+		elif names:
+			self.w.targetName.set(names[0])
 		else:
-			self.w.targetName.set(0)
+			self.w.targetName.set("")
 
 	def onPoolChange(self, sender):
 		self.updateEnableStates()
 
 	def updateEnableStates(self, sender=None):
-		# enable/disable specificity controls
-		self.w.targetName.enable(self.w.scope.get() == 1)      # only when 'Only this name'
-		self.w.replName.enable(self.w.replMode.get() == 1)     # only when 'Specific list'
+		# Target field is only needed in specific-target mode.
+		self.w.targetName.enable(self.w.scope.get() == 0)
 		self.w.modStart.enable(bool(self.w.modCheck.get()))
 		# openTab only if New Layer is on and NOT New Glyph
 		self.w.openTab.enable(bool(self.w.makeNewLayer.get()) and not bool(self.w.makeNewGlyph.get()))
@@ -263,31 +265,35 @@ class SwapComponentsGUI(object):
 	# ---------- oh shit undo ----------
 
 	def reset(self, sender):
-		"""
-		Reset button: calls the document's undo manager once,
-		which should undo the last script operation (same as ⌘Z).
-		"""
+		"""Undo the last Component Swapper operation in Glyphs 4."""
 		global Font
 		Font = Glyphs.font
 		if not Font:
 			return
+
 		try:
-			doc = Font.parent  # GSDocument
-			if doc and hasattr(doc, "undoManager"):
-				um = doc.undoManager()
-				if um:
-					um.undo()
+			if self.lastCreatedGlyphNames:
+				for glyphName in list(self.lastCreatedGlyphNames):
+					glyph = Font.glyphs[glyphName]
+					if glyph is not None:
+						Font.glyphs.remove(glyph)
+				self.lastCreatedGlyphNames = []
 			else:
-				# safety car: try glyph-level undo for selected layers
-				for layer in (Font.selectedLayers or []):
-					g = layer.parent
-					if hasattr(g, "undoManager"):
-						um = g.undoManager()
-						if um:
+				undoGlyphs = self.lastUndoGlyphs or [layer.parent for layer in (Font.selectedLayers or [])]
+				seen = set()
+				for glyph in undoGlyphs:
+					if glyph is None or id(glyph) in seen:
+						continue
+					seen.add(id(glyph))
+					try:
+						um = glyph.undoManager()
+						if um and um.canUndo():
 							um.undo()
+					except Exception as e:
+						print(f"⚠️ Could not undo {glyph.name}: {e}")
 		except Exception as e:
 			print(f"⚠️ Reset failed: {e}")
-		# Redraw after undo
+
 		try:
 			if Font.currentTab:
 				Font.currentTab.redraw()
@@ -307,23 +313,16 @@ class SwapComponentsGUI(object):
 
 		self.refreshFromSelection(preserve=True)
 
-		pool = parsePool(self.w.pool.get())
-		scopeIdx = self.w.scope.get()                      # 0=All(in pool), 1=Only this name
-		targetItems = self.w.targetName.getItems()
-		scopeName = None
-		if scopeIdx == 1 and targetItems and "(no selection)" not in targetItems:
-			scopeName = targetItems[self.w.targetName.get()].strip()
+		replacementList = parsePool(self.w.pool.get())
+		scopeIdx = self.w.scope.get()                      # 0=Only target, 1=All components
+		scopeName = (self.w.targetName.get() or "").strip()
+		replModeIdx = self.w.replMode.get()                # 0=Random, 1=Cycle
 
-		replModeIdx = self.w.replMode.get()                # 0=Random, 1=Specific list
-		replText = self.w.replName.get() or ""
-		replacementList = parsePool(replText) if replModeIdx == 1 else []
-
-		if replModeIdx == 0 and not pool:
-			print("⚠️ Replacement mode is Random, but pool is empty.")
+		if not replacementList:
+			print("⚠️ Add at least one replacement component.")
 			return
-
-		if replModeIdx == 1 and not replacementList:
-			print("⚠️ Specific replacement mode is active, but the list is empty.")
+		if scopeIdx == 0 and not scopeName:
+			print("⚠️ Choose or type a target component name.")
 			return
 
 		swapPct       = self.w.pct.get()
@@ -403,12 +402,8 @@ class SwapComponentsGUI(object):
 							continue
 
 						# ---- TARGETING ----
-						if scopeIdx == 0:
-							if compName not in pool:
-								continue
-						else:
-							if not scopeName or compName != scopeName:
-								continue
+						if scopeIdx == 0 and compName != scopeName:
+							continue
 
 						# Modulo behavior:
 						# - Random mode: modulo decides WHETHER we swap (skip some)
@@ -427,18 +422,10 @@ class SwapComponentsGUI(object):
 
 						# ---- REPLACEMENT ----
 						if replModeIdx == 0:
-							# TRUE random from pool
-							newName = random.choice(pool)
+							newName = random.choice(replacementList)
 						else:
-							# Specific list: cycle through replacementList
-							if not replacementList:
-								continue
-							if useModulo:
-								# Use specIndex as sequence counter with offset for even/odd start
-								offset = 1 if startOdd else 0
-								repIndex = (specIndex + offset) % len(replacementList)
-							else:
-								repIndex = specIndex % len(replacementList)
+							offset = 1 if (useModulo and startOdd) else 0
+							repIndex = (specIndex + offset) % len(replacementList)
 							newName = replacementList[repIndex]
 							specIndex += 1
 
@@ -459,6 +446,10 @@ class SwapComponentsGUI(object):
 
 		finally:
 			Font.enableUpdateInterface()
+
+		# Remember the last operation for the Reset button.
+		self.lastUndoGlyphs = list(glyphsToUndo)
+		self.lastCreatedGlyphNames = [g.name for g in glyphsToUndo] if makeNewGlyph else []
 
 		# --- focus & tab updates ---
 
@@ -518,11 +509,11 @@ class SwapComponentsGUI(object):
 		except Exception:
 			pass
 
-		scopeMsg = "All (in pool)" if scopeIdx == 0 else f"Only '{scopeName}'"
+		scopeMsg = f"Only '{scopeName}'" if scopeIdx == 0 else "All components"
 		if replModeIdx == 0:
-			replMsg = "Random from pool"
+			replMsg = f"Random ({len(replacementList)} item(s))"
 		else:
-			replMsg = f"Specific list ({len(replacementList)} item(s))"
+			replMsg = f"Cycle ({len(replacementList)} item(s))"
 		modMsg   = "Modulo ON" if useModulo else "Modulo OFF"
 		layerMsg = f"NewLayer={'YES' if (makeNewLayer and not makeNewGlyph) else 'NO'}"
 		glyphMsg = f"NewGlyph={'YES' if makeNewGlyph else 'NO'}"
@@ -532,8 +523,11 @@ class SwapComponentsGUI(object):
 		)
 
 
-	def close(self, sender):
-		self.w.close()
+	def closeWindow(self, sender):
+		try:
+			self.w.getNSWindow().performClose_(sender)
+		except Exception:
+			self.w.close()
 
 
 SwapComponentsGUI()

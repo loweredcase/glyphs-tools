@@ -5,7 +5,7 @@ Creates a GUI where you can "nudge nodes" in a specific glyph or selection of gl
 """
 
 # --------------------------------------------------------------------
-# Addition Projects - Last Update, Nov 21 2025
+# Addition Projects - Last Update, Sep 24 2026
 # --------------------------------------------------------------------
 # Glyph Tools: Node Nudger
 # --------------------------------------------------------------------
@@ -19,11 +19,12 @@ Creates a GUI where you can "nudge nodes" in a specific glyph or selection of gl
 
 import GlyphsApp, random
 from GlyphsApp import GSGlyph, GSLayer, GSOFFCURVE, GSCURVE
-from vanilla import Window, TextBox, EditText, Button, CheckBox, PopUpButton, HorizontalLine
+from vanilla import FloatingWindow, TextBox, EditText, Button, CheckBox, PopUpButton, HorizontalLine
 from datetime import datetime
+from AppKit import NSPoint
 
 Font = Glyphs.font
-random.seed()  # OS-entropy seed for true-random runs
+rng = random.SystemRandom()  # independent OS-backed random values
 
 
 # ---------------- start your engines ----------------
@@ -91,6 +92,12 @@ def copyShapesFromTo(srcLayer, dstLayer):
 		dstLayer.shapes.append(sh.copy())
 	dstLayer.width = srcLayer.width
 
+def moveNodeBy(node, dx, dy):
+	"""Move a GSNode using the documented Glyphs 4 position API."""
+	pt = node.position
+	node.position = NSPoint(pt.x + dx, pt.y + dy)
+
+
 def focusLayer(layer):
 	"""Best-effort focus of a layer in the Edit view."""
 	try:
@@ -127,7 +134,9 @@ def focusLayer(layer):
 
 class NodeNudgerUI(object):
 	def __init__(self):
-		self.w = Window((440, 580), "Node Nudger")
+		self.w = FloatingWindow((440, 580), "Node Nudger")
+		self.lastUndoGlyphs = []
+		self.lastCreatedGlyphNames = []
 
 		y = 12
 		# CLUSTER 1: Mode & Axes
@@ -248,7 +257,7 @@ class NodeNudgerUI(object):
 		# Buttons: Run / Reset / Close
 		self.w.runBtn   = Button((12,   y, 130, 32), "Run 🏁",   callback=self.run)
 		self.w.resetBtn = Button((154,  y, 130, 32), "Reset ⌘Z", callback=self.reset)
-		self.w.closeBtn = Button((296,  y, 130, 32), "Close",    callback=self.close)
+		self.w.closeBtn = Button((296,  y, 130, 32), "Close",    callback=self.closeWindow)
 		y += 44
 
 		# Trim bottom
@@ -278,31 +287,38 @@ class NodeNudgerUI(object):
 	# ---------------- oh shit undo ----------------
 
 	def reset(self, sender):
-		"""
-		Reset button: calls the document's undo manager once,
-		which should undo the last script operation (same as ⌘Z).
-		"""
+		"""Undo the last Node Nudger operation in Glyphs 4."""
 		global Font
 		Font = Glyphs.font
 		if not Font:
 			return
+
 		try:
-			doc = Font.parent  # GSDocument
-			if doc and hasattr(doc, "undoManager"):
-				um = doc.undoManager()
-				if um:
-					um.undo()
+			# New-glyph mode changes the font's glyph collection as well as outlines.
+			# Removing the created glyphs is the most predictable one-click reset.
+			if self.lastCreatedGlyphNames:
+				for glyphName in list(self.lastCreatedGlyphNames):
+					glyph = Font.glyphs[glyphName]
+					if glyph is not None:
+						Font.glyphs.remove(glyph)
+				self.lastCreatedGlyphNames = []
 			else:
-				# Fallback: try glyph-level undo for selected layers
-				for layer in (Font.selectedLayers or []):
-					g = layer.parent
-					if hasattr(g, "undoManager"):
-						um = g.undoManager()
-						if um:
+				# Glyphs 4 maintains undo history on the glyph itself for outline/layer edits.
+				undoGlyphs = self.lastUndoGlyphs or [layer.parent for layer in (Font.selectedLayers or [])]
+				seen = set()
+				for glyph in undoGlyphs:
+					if glyph is None or id(glyph) in seen:
+						continue
+					seen.add(id(glyph))
+					try:
+						um = glyph.undoManager()
+						if um and um.canUndo():
 							um.undo()
+					except Exception as e:
+						print(f"⚠️ Could not undo {glyph.name}: {e}")
 		except Exception as e:
 			print(f"⚠️ Reset failed: {e}")
-		# Redraw after undo
+
 		try:
 			if Font.currentTab:
 				Font.currentTab.redraw()
@@ -352,6 +368,7 @@ class NodeNudgerUI(object):
 
 		nudgedNodes = 0
 		processedLayers = 0
+		uniqueShifts = set()
 
 		layersToFocus = []
 		lastLayerToFocus = None
@@ -370,6 +387,9 @@ class NodeNudgerUI(object):
 				tgtGlyph = duplicateGlyph_withSuffix(srcGlyph, glyphSuffix) if makeNewGlyph else srcGlyph
 				glyphMap[srcGlyph] = tgtGlyph
 				glyphsToUndo.add(tgtGlyph)
+
+			self.lastUndoGlyphs = list(glyphsToUndo)
+			self.lastCreatedGlyphNames = [g.name for g in glyphMap.values()] if makeNewGlyph else []
 
 			# begin undo groups for all target glyphs
 			for g in glyphsToUndo:
@@ -417,9 +437,9 @@ class NodeNudgerUI(object):
 							if mode == 0:
 								# random mode
 								if affectX:
-									dx = random.randint(xMin, xMax)
+									dx = rng.randint(xMin, xMax)
 								if affectY:
-									dy = random.randint(yMin, yMax)
+									dy = rng.randint(yMin, yMax)
 							else:
 								# fixed mode
 								if affectX:
@@ -430,11 +450,11 @@ class NodeNudgerUI(object):
 							# skip if no movement
 							if not (dx or dy):
 								continue
+							uniqueShifts.add((dx, dy))
 
 							if nodeType == GSCURVE:
 								# move the curve point
-								node.x += dx
-								node.y += dy
+								moveNodeBy(node, dx, dy)
 								nudgedNodes += 1
 
 								# if preserving curve, also move adjacent handles (prev/next off-curve)
@@ -442,23 +462,19 @@ class NodeNudgerUI(object):
 									prevN = nodes[(i - 1) % count]
 									nextN = nodes[(i + 1) % count]
 									if prevN.type == GSOFFCURVE:
-										prevN.x += dx
-										prevN.y += dy
+										moveNodeBy(prevN, dx, dy)
 									if nextN.type == GSOFFCURVE:
-										nextN.x += dx
-										nextN.y += dy
+										moveNodeBy(nextN, dx, dy)
 
 							elif nodeType == GSOFFCURVE:
 								# only move off-curve handles if explicitly allowed
 								if nudgeOffCurves:
-									node.x += dx
-									node.y += dy
+									moveNodeBy(node, dx, dy)
 									nudgedNodes += 1
 
 							else:
 								# LINE or other on-curve types: just move the point
-								node.x += dx
-								node.y += dy
+								moveNodeBy(node, dx, dy)
 								nudgedNodes += 1
 
 			finally:
@@ -536,11 +552,14 @@ class NodeNudgerUI(object):
 			f"AffectX={affectX}, AffectY={affectY}, "
 			f"PreserveCurves={preserveCurves}, NudgeOffCurves={nudgeOffCurves}, "
 			f"NewLayer={'YES' if (makeNewLayer and not makeNewGlyph) else 'NO'}, "
-			f"NewGlyph={'YES' if makeNewGlyph else 'NO'}."
+			f"NewGlyph={'YES' if makeNewGlyph else 'NO'}, UniqueShifts={len(uniqueShifts)}."
 		)
 
-	def close(self, sender):
-		self.w.close()
+	def closeWindow(self, sender):
+		try:
+			self.w.getNSWindow().performClose_(sender)
+		except Exception:
+			self.w.close()
 
 
 NodeNudgerUI()
