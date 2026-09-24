@@ -79,7 +79,7 @@
   → Reset button (`undo / ⌘Z`)  
 
   Note on rotation:  
-  → Rotator Jig intentionally caps its final intermediate brace at **max-1** (e.g. **999** when max is 1000). It is recommended to have both your first master (e.g. AXIS @ 0) and end master (e.g. AXIS @ 1000) the exact same drawing. This avoids interpolation artifacts at endpoints, due to for example a start node changing positions through rotation, and supports clean looping for animation (1 → 999 → 1).  
+  → Rotator Jig intentionally caps its final intermediate brace at **max-1** (e.g. **999** when max is 1000). It is recommended to have both your first master (e.g. `AXIS @ 0`) and end master (e.g. `AXIS @ 1000`) the exact same drawing. This avoids interpolation artifacts at endpoints, due to, for example, a start node changing positions through rotation, and supports clean looping for animation (1 → 999 → 1).  
 
 
 **Seed Spreader**  
