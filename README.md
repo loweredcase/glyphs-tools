@@ -17,12 +17,19 @@
 
 
 **Installation**  
+  → In Glyphs 4, open `Window → Plugin Manager`  
+  → Under *Scripts*, find **AP Font Tools**  
+  → Click *Install*  
+  → Restart Glyphs or reload scripts if prompted  
+
+**Manual / development installation**  
   → Clone or download this repo  
   → In Glyphs 4, open your Scripts folder:  
       `Script → Open Scripts Folder`  
   → Place the repo in the Scripts folder  
   → Refresh scripts (hold Option to reveal menu option):  
       `Script → Reload Scripts`  
+  → For development, use this local repo instead of also installing through Plugin Manager to avoid duplicate script copies  
 
 
 **Usage**  
