@@ -6,6 +6,7 @@
   → **Grid Snapper** finds components slightly off grid and corrects them  
   → **Mirror Mender** finds mirrored (reflected) components and corrects them  
   → **Node Nudger** moves on-curve nodes by random or fixed x/y values; non-destructive options  
+  → **Position Builder** generates positional OpenType features  
   → **Rotator Jig** builds Intermediate axis layers to simulate rotation via frame steps  
   → **Seed Spreader** propagates a parent drawing across all child layers of a glyph  
   → **Vertical Metrics Maker** calculates and applies vertical font metrics  
@@ -117,6 +118,17 @@
   → Master scope (current / all) when scanning beyond selected layers  
   → Preview pane (compute first, then write)  
   → Reset button (one undo step / ⌘Z)  
+
+
+**Position Builder**  
+*Generate positional OpenType behavior from matching alternate glyph sets.*  
+  → Detects complete isolated / initial / medial / final glyph sets  
+  → Customizable suffixes and target OpenType feature  
+  → Handles singletons and runs of 2, 3, 4+ glyphs  
+  → Generates synchronized positional classes automatically  
+  → Reports incomplete glyph sets  
+  → Safe to rerun as the font develops  
+  → Preserves unrelated code in the target feature  
 
 
 **Vertical Metrics Maker**  
