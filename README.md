@@ -1,15 +1,17 @@
-## Overview  
+## Overview
 
-*A toolkit for modular and component-driven workflows in Glyphs 4:*  
-  → **Axis Twister** adjusts Smart Component axes (random or targeted); non-destructive options  
-  → **Component Swapper** swaps targeted components from a replacement pool; random or cyclic options  
-  → **Grid Snapper** finds components slightly off grid and corrects them  
-  → **Mirror Mender** finds mirrored (reflected) components and corrects them  
-  → **Node Nudger** moves on-curve nodes by random or fixed x/y values; non-destructive options  
-  → **Position Builder** generates positional OpenType features  
-  → **Rotator Jig** builds Intermediate axis layers to simulate rotation via frame steps  
-  → **Seed Spreader** propagates a parent drawing across all child layers of a glyph  
-  → **Stream Proofer** creates a window with proofing text for positional/contextual glyph sets  
+*A toolkit for modular, component-driven, and production workflows in Glyphs 4.*
+
+  → **Axis Twister** adjusts Smart Component axes with random or targeted values  
+  → **Component Swapper** swaps components from a defined replacement pool  
+  → **Grid Snapper** finds and corrects components slightly off grid  
+  → **Mirror Mender** finds and corrects mirrored components  
+  → **Node Nudger** moves nodes by random or fixed X/Y values  
+  → **Position Builder** generates positional OpenType behavior  
+  → **Rotator Jig** builds Intermediate layers for faux-rotational effects  
+  → **Seed Spreader** propagates a parent drawing across child layers  
+  → **Streamer Builder** builds component-based positional glyph sets  
+  → **Streamer Proofer** creates structured proofs for positional/contextual glyph systems  
   → **Vertical Metrics Maker** calculates and applies vertical font metrics  
 
 
@@ -24,134 +26,143 @@
   → Click *Install*  
   → Restart Glyphs or reload scripts if prompted  
 
+
 **Manual / development installation**  
   → Clone or download this repo  
-  → In Glyphs 4, open your Scripts folder:  
-      `Script → Open Scripts Folder`  
+  → In Glyphs 4, open `Script → Open Scripts Folder`  
   → Place the repo in the Scripts folder  
-  → Refresh scripts (hold Option to reveal menu option):  
-      `Script → Reload Scripts`  
-  → For development, use this local repo instead of also installing through Plugin Manager to avoid duplicate script copies  
+  → Hold Option and choose `Script → Reload Scripts`  
+  → For development, use the local repo instead of also installing through Plugin Manager to avoid duplicate scripts  
 
 
 **Usage**  
   → Scripts appear under the *Script* menu after reloading  
   → Drawing and Production tools appear in their respective submenus  
-  → Open *Window → Macro Panel* to inspect output  
+  → Open `Window → Macro Panel` to inspect script output  
+
 <br>
 
-## Drawing Tools  
+## Drawing Tools
 
 **Axis Twister**  
-*Adjust Smart Component Axes in a specific glyph or selection of glyphs.*  
-  → Random ranges (min/max per axis, clamped to axis limits)  
-  → Fixed lists (e.g. `100, 50, 25`) randomly applied per component  
-  → Axis scoping: all axes or a specific named axis  
-  → Component scoping: all smart components or only names in a pool  
-  → Chance (%) + affect every Nth component (`1 = all`, `2 = every other`, `3 = every third`)  
-  → Optional random counter generation (decompose + reverse shapes to create cutouts)  
-  → Duplicate to new layer or new glyph with custom naming  
-  → New glyphs appear immediately after the original in the Edit tab  
-  → Reset button (`undo / ⌘Z`)  
+*Adjust Smart Component axes in a glyph or selection of glyphs.*  
+  → Use random ranges or fixed value lists  
+  → Target all axes or a specific named axis  
+  → Target all Smart Components or a defined component pool  
+  → Control frequency with chance (%) and every-Nth settings  
+  → Optional random counter generation  
+  → Duplicate results to a new layer or glyph  
+  → Reset with undo / ⌘Z  
 
 
 **Component Swapper**  
-*Automate and control swapping components in a specific glyph or selection of glyphs.*  
-  → Choose a specific target component by name  
-  → Define a pool of replacement components  
-  → Swap randomly from the replacement pool  
-  → Or cycle through the replacement list (`A → B → C → …`)  
-  → Optionally apply to all components instead of a single target  
-  → Modulo alternation: even/odd or every Nth component  
-  → Chance (%) determines how often replacements occur  
-  → Duplicate to new layer or new glyph with a suffix or versioning  
-  → Edit-tab updates insert new glyphs directly after the original  
-  → Reset button (`undo`)  
+*Swap targeted components from a defined replacement pool.*  
+  → Swap randomly or cycle through replacements  
+  → Target one component name or all components  
+  → Apply even/odd or every-Nth alternation  
+  → Control frequency with chance (%)  
+  → Duplicate results to a new layer or glyph  
+  → Reset with undo  
 
 
 **Node Nudger**  
-*Move nodes in a specific glyph or selection of glyphs.*  
-  → Random or fixed X/Y nudging  
-  → Independent toggles for “Nudge X” and “Nudge Y”  
-  → Preserve-curve mode (move handles with on-curve points)  
-  → Or nudge handles independently (for more glitch-driven outcomes)  
-  → Duplicate to new layer or new glyph (timestamped naming options)  
-  → New glyphs appear directly after the source in the Edit tab  
-  → Reset button (`undo`)  
+*Move nodes in a glyph or selection of glyphs.*  
+  → Apply random or fixed X/Y movement  
+  → Nudge X and Y independently  
+  → Preserve curves by moving handles with on-curve points  
+  → Or move handles independently for more disruptive results  
+  → Duplicate results to a new layer or glyph  
+  → Reset with undo  
 
 
 **Rotator Jig**  
-*Automate intermediate layers for faux-rotational effects.*  
-  → Builds real Intermediate (brace) layers along a chosen axis (current master only)  
-  → Copies current-master outlines into each brace layer and rotates geometry around a fixed center  
-  → Generates frames by degree step (endpoints excluded)  
-  → Clockwise / counter-clockwise direction toggle  
-  → Optional integer rounding to avoid fractional node coordinates  
-  → Safe to rerun (rebuilds only the generated brace layers)  
-  → Reset button (`undo / ⌘Z`)  
+*Build Intermediate layers for faux-rotational effects.*  
+  → Creates Intermediate layers along a chosen axis  
+  → Rotates the current-master drawing around a fixed center  
+  → Generates frames by degree step  
+  → Supports clockwise or counter-clockwise rotation  
+  → Optional integer rounding avoids fractional node coordinates  
+  → Safe to rerun; only generated Intermediate layers are rebuilt  
+  → Reset with undo / ⌘Z  
 
-  Note on rotation:  
-  → Rotator Jig intentionally caps its final intermediate brace at **max-1** (e.g. **999** when max is 1000). It is recommended to have both your first master (e.g. `AXIS @ 0`) and end master (e.g. `AXIS @ 1000`) the exact same drawing. This avoids interpolation artifacts at endpoints, due to, for example, a start node changing positions through rotation, and supports clean looping for animation (1 → 999 → 1).  
+  **Rotation note:**  
+  Rotator Jig stops one unit before the axis maximum—for example, `999` on a `0–1000` axis. For seamless loops, use the same drawing at both endpoint masters. This avoids interpolation artifacts at the axis seam and supports clean looping from start → rotation → start.  
 
 
 **Seed Spreader**  
-*Propagates a parent drawing across all child layers of a glyph.*  
-  → Propagate parent drawing to all child layers for selected glyph(s)  
-  → Optionally copy anchors + width  
-  → Optionally skip child layers that already contain drawing  
-  → Run in undo groups + Reset (⌘Z)  
+*Propagate a parent drawing across all child layers of a glyph.*  
+  → Works across selected glyphs  
+  → Optionally copies anchors and width  
+  → Optionally skips child layers that already contain drawing  
+  → Reset with undo / ⌘Z  
+
 <br>
 
-## Production Tools  
+## Production Tools
 
 **Grid Snapper**  
-*Rounds component placement (transform translation) to a user-defined grid increment.*  
-  → Scope options (selected layers / selected glyphs / all exportable glyphs)  
-  → Master scope (current / all) when scanning beyond selected layers  
-  → Snap step + tolerance (only snap when close to a gridline)  
-  → Preview pane (compute first, then write)  
-  → Reset button (one undo step / ⌘Z)  
+*Find components slightly off grid and snap them into place.*  
+  → Scope by selected layers, selected glyphs, or all exportable glyphs  
+  → Choose current or all masters  
+  → Set grid increment and tolerance  
+  → Preview changes before applying them  
+  → Reset with undo / ⌘Z  
 
 
 **Mirror Mender**  
-*Find mirrored (reflected) components and correct them without moving their visual placement.*  
-  → Scope options (selected layers / selected glyphs / all exportable glyphs)  
-  → Master scope (current / all) when scanning beyond selected layers  
-  → Preview pane (compute first, then write)  
-  → Reset button (one undo step / ⌘Z)  
+*Find mirrored components and correct them without changing their visual placement.*  
+  → Scope by selected layers, selected glyphs, or all exportable glyphs  
+  → Choose current or all masters  
+  → Preview changes before applying them  
+  → Reset with undo / ⌘Z  
 
 
-**Stream Proofer**  
-*Build structured proofs for positional and contextual glyph systems.*  
-  → Detects complete isolated / initial / medial / final glyph sets  
-  → Proofs literal forms or contextual OpenType behavior  
-  → Customizable suffixes and feature tag  
-  → Supports all complete sets or selected positional families  
-  → Reports incomplete sets before proofing
+**Streamer Builder**  
+*Build component-based isolated, initial, medial, and final forms for positional glyph systems.*  
+  → Builds `.medi`, `.init`, `.fina`, and `.isol` forms from reusable start, middle, and end components  
+  → Constructs medial forms from the default glyph with a background middle component  
+  → Adds independent LSB / RSB space around the default glyph  
+  → Optionally stretches the middle component to match each medial glyph width  
+  → Calculates middle-component stretching independently for each master  
+  → Suggests underscore-prefixed helper glyphs while allowing any valid component name  
+  → Build from selected glyphs, all eligible glyphs, or a custom glyph list  
+  → Customizable positional suffixes  
+  → Preview source glyphs and construction before building  
+  → Skip existing forms by default or explicitly rebuild them  
+  → Preserves non-master special layers when rebuilding  
 
 
 **Position Builder**  
 *Generate positional OpenType behavior from matching alternate glyph sets.*  
-  → Detects complete isolated / initial / medial / final glyph sets  
+  → Detects complete isolated / initial / medial / final sets  
   → Customizable suffixes and target OpenType feature  
-  → Handles singletons and runs of 2, 3, 4+ glyphs  
+  → Handles single glyphs and runs of 2, 3, 4+ glyphs  
   → Generates synchronized positional classes automatically  
-  → Reports incomplete glyph sets  
+  → Reports incomplete sets  
   → Safe to rerun as the font develops  
   → Preserves unrelated code in the target feature  
 
 
-**Vertical Metrics Maker**  
-*Calculate and apply vertical font metrics based on drawing extremes and master settings.*  
-  → Scans glyph outlines to determine vertical extremes  
-  → Applies a recommended metric recipe for common export scenarios  
-  → Writes font-level and master-level custom parameters correctly  
-  → Optional line-gap calculation as a percentage of Ascender + Descender  
-  → Preview computed values before writing  
-  → Safe to rerun; existing parameters are updated, not duplicated  
-  → Reset button (single undo / ⌘Z)  
+**Streamer Proofer**  
+*Build structured proofs for positional and contextual glyph systems.*  
+  → Detects complete isolated / initial / medial / final sets  
+  → Proof literal forms or contextual OpenType behavior  
+  → Customizable suffixes and feature tag  
+  → Proof all complete sets or selected positional families  
+  → Reports incomplete sets before proofing  
 
-  
+
+**Vertical Metrics Maker**  
+*Calculate and apply vertical font metrics from drawing extremes and master settings.*  
+  → Scans glyph outlines for vertical extremes  
+  → Applies a recommended metric recipe for common export scenarios  
+  → Writes font-level and master-level parameters where appropriate  
+  → Optional line-gap calculation based on Ascender + Descender  
+  → Preview values before applying them  
+  → Safe to rerun; existing parameters are updated rather than duplicated  
+  → Reset with undo / ⌘Z  
+
+
 <br>
 <br>
 

@@ -1,4 +1,4 @@
-#MenuTitle: Stream Proofer
+#MenuTitle: Streamer Proofer
 # -*- coding: utf-8 -*-
 __doc__ = """
 Builds structured proof tabs for positional/contextual glyph systems.
@@ -8,7 +8,7 @@ Builds structured proof tabs for positional/contextual glyph systems.
 # --------------------------------------------------------------------
 # Addition Projects - Last Update, Oct 22 2026
 # --------------------------------------------------------------------
-# Glyph Tools: Stream Proofer
+# Glyph Tools: Streamer Proofer
 # --------------------------------------------------------------------
 # → Detect complete isolated / initial / medial / final glyph sets
 # → Proof literal positional forms or contextual feature behavior
