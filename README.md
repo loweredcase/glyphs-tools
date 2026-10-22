@@ -9,6 +9,7 @@
   → **Position Builder** generates positional OpenType features  
   → **Rotator Jig** builds Intermediate axis layers to simulate rotation via frame steps  
   → **Seed Spreader** propagates a parent drawing across all child layers of a glyph  
+  → **Stream Proofer** creates a window with proofing text for positional/contextual glyph sets  
   → **Vertical Metrics Maker** calculates and applies vertical font metrics  
 
 
@@ -118,6 +119,15 @@
   → Master scope (current / all) when scanning beyond selected layers  
   → Preview pane (compute first, then write)  
   → Reset button (one undo step / ⌘Z)  
+
+
+**Stream Proofer**  
+*Build structured proofs for positional and contextual glyph systems.*  
+  → Detects complete isolated / initial / medial / final glyph sets  
+  → Proofs literal forms or contextual OpenType behavior  
+  → Customizable suffixes and feature tag  
+  → Supports all complete sets or selected positional families  
+  → Reports incomplete sets before proofing
 
 
 **Position Builder**  
